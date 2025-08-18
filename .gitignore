@@ -1,0 +1,47 @@
+# Common Node.js and frontend project .gitignore
+
+node_modules/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env files
+.env
+.env.* 
+!frontend/.env.example
+!backend/.env.example
+
+# Coverage
+coverage/
+*.lcov
+
+# Build artifacts
+dist/
+build/
+
+# Frontend (React - CRA or Vite)
+
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.cache/
+frontend/.vite/
+
+# Backend (Node/Express)
+
+backend/node_modules/
+backend/dist/
+backend/build/
+backend/.nyc_output/
+backend/.cache/
+
+# PM2 logs if you use PM2
+backend/.pm2/
+
+# Editor / OS specific
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

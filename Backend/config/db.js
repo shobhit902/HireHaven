@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const connectDB = async () => {
+export const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI);
     console.log("MongoDB connected successfully:", conn.connection.host);
@@ -10,6 +10,6 @@ const connectDB = async () => {
     process.exit(1); // Exit process with failure
   }
 };
-export default connectDB;
+
 
 // Export the connectDB function to be used in index.js

@@ -1,5 +1,5 @@
 import app from "./app.js";
-import connectDB from "./config/db.js";
+import { connectDB } from "./config/db.js";
 import express from "express";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.route.js";

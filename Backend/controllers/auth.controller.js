@@ -1,7 +1,9 @@
-
 import { User } from "../models/user.model.js";
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
-import { sendVerificationEmail , sendWelcomeEmail} from "../nodemailer/emails.js";
+import {
+  sendVerificationEmail,
+  sendWelcomeEmail,
+} from "../nodemailer/emails.js";
 import bcrypt from "bcryptjs";
 
 export const signup = async (req, res) => {
@@ -47,17 +49,16 @@ export const signup = async (req, res) => {
         verificationTokenExpiresAt: undefined,
       },
     });
-  await sendVerificationEmail(user.email, verificationToken);
+    await sendVerificationEmail(user.email, verificationToken);
   } catch (error) {
     console.error("Signup error:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
-
 export const verifyEmail = async (req, res) => {
   const { verificationToken } = req.body;
 
-try {
+  try {
     const user = await User.findOne({
       verificationToken: verificationToken,
       verificationTokenExpiresAt: { $gt: Date.now() },
@@ -74,18 +75,46 @@ try {
     user.verificationTokenExpiresAt = undefined;
     await user.save();
 
-    res.status(200).json({ success: true, message: "Email verified successfully" });
+    await sendWelcomeEmail(user.username, user.email);
 
-    await sendWelcomeEmail(user.email, "Your email has been successfully verified.");
+    return res
+      .status(200)
+      .json({ success: true, message: "Email verified successfully" });
   } catch (error) {
     console.error("Email verification error:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
-  } }
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
+  }
+};
+
 
 export const login = async (req, res) => {
-  res.send("login route");
+  const {email, password} = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {   
+      return res.status(400).json({ success: false, message: "Invalid credentials" });
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {   
+      return res.status(400).json({ success: false, message: "Invalid password" });
+    }
+    generateTokenAndSetCookie(res, user._id);
+    res.status(200).json({ success: true, message: "Login successful", user: {  
+      ...user._doc,
+      password: undefined,
+      verificationToken: undefined,
+      verificationTokenExpiresAt: undefined,
+    } });
+    user.lastlogin = new Date();
+    await user.save();
+  } catch (error) {
+    res.status(400).json({ success: false, message: "Invalid email or password" });
+  }
 };
 
 export const logout = async (req, res) => {
-  res.send("logout route");
+  res.clearCookie("token");
+  res.status(200).json({ success: true, message: "Logged out successfully" });
 };

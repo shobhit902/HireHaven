@@ -93,3 +93,51 @@ export const PASSWORD_RESET_REQUEST_TEMPLATE = `
 </body>
 </html>
 `;
+
+export const WELCOME_EMAIL_TEMPLATE = (username) => `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Welcome to HireHaven</title>
+  </head>
+  <body style="margin:0; padding:0; font-family: Arial, sans-serif; background-color:#f9f9f9;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f9f9f9; padding:20px;">
+      <tr>
+        <td align="center">
+          <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border-radius:10px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+            <tr>
+              <td align="center" style="background:#4f46e5; padding:20px;">
+                <h1 style="color:#ffffff; margin:0;">HireHaven</h1>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:30px; text-align:left; color:#333;">
+                <h2 style="margin-top:0;">Welcome aboard, ${username}! 🎉</h2>
+                <p style="font-size:16px; line-height:1.6;">
+                  We're thrilled to have you join <strong>HireHaven</strong>!  
+                  You’re now part of a growing community where talent meets opportunity. 🚀
+                </p>
+                <p style="font-size:16px; line-height:1.6;">
+                  Explore exciting opportunities, build meaningful connections, 
+                  and take the next big step in your journey.
+                </p>
+                <p style="font-size:16px; line-height:1.6;">
+                  Our team is here to support you every step of the way. 
+                  Let’s make great things happen together!
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="background:#f3f4f6; padding:20px; font-size:12px; color:#777;">
+                © ${new Date().getFullYear()} HireHaven. All rights reserved.
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+  </html>
+`;

@@ -2,6 +2,7 @@ import app from "./app.js";
 import { connectDB } from "./config/db.js";
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
 
 dotenv.config(); // Load environment variables from .env file
@@ -9,7 +10,7 @@ dotenv.config(); // Load environment variables from .env file
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json()); // Middleware to parse JSON requests
-
+app.use(cookieParser()); // Middleware to parse cookies
 app.use("/api/auth", authRoutes); // Use auth routes
 
 // Define a simple route

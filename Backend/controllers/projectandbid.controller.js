@@ -195,3 +195,39 @@ export const acceptInvite = async (req, res) => {
     return res.status(500).json({ success: false, message: "Server Error" });
   }
 };
+
+export const declineInvite = async (req, res) => {
+  const { token } = req.body;
+  try {
+    if (!token) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Token is required" });
+    }
+    const invite = await Invite.find({ token });
+    if (!invite) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Invite not found" });
+    } 
+    if (invite.expiresAt < Date.now()) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invite has expired" });
+    }
+    invite.status = "declined";
+    await invite.save();  
+    return res.status(200).json({
+      success: true,
+      message: "Invite declined successfully",    
+      invite: {
+        ...invite._doc,
+        token: undefined, 
+        expiresAt: undefined,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, message: "Server Error" });
+  }
+};

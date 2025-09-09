@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
 import projectRoutes from "./routes/projectAndBid.route.js";
+import messageRoutes from "./routes/message.route.js"
 import cors from "cors";
 import morgan from "morgan";
 
@@ -19,6 +20,7 @@ app.use(morgan("dev"));
 
 app.use("/api/auth", authRoutes); // Use auth routes
 app.use("/api/projects", projectRoutes); // Use project and bid routes
+app.use("/api/messages", messageRoutes); // Use message routes
 
 // Define a simple route
 

@@ -15,7 +15,7 @@
   "type": "module",
   "main": "backend index.js",
   "scripts": {
-    "dev": "nodemon ./backend/index.js"
+    "dev": "nodemon index.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",

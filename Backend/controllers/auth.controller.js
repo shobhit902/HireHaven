@@ -81,9 +81,14 @@ export const verifyEmail = async (req, res) => {
 
     await sendWelcomeEmail(user.username, user.email);
 
-    return res
-      .status(200)
-      .json({ success: true, message: "Email verified successfully" });
+    return res.status(200).json({
+      success: true,
+      message: "Email verified successfully",
+      user: {
+        ...user._doc, // include all fields except sensitive ones
+        password: undefined,
+      },
+    });
   } catch (error) {
     console.error("Email verification error:", error);
     return res
@@ -175,8 +180,10 @@ export const resetPassword = async (req, res) => {
     }
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedPassword;
-    user.resetToken = undefined;
-    user.resetTokenExpiresAt = undefined;
+
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpiresAt = undefined;
+
     await user.save();
 
     await sendResetPasswordSuccessful(user.email);

@@ -42,7 +42,7 @@ export const sendWelcomeEmail = async (username, to) => {
 
 export const sendResetPasswordEmail = async (to, resetToken) => {
   try {
-    const resetLink = `${process.env.CLIENT_RESET_URL}/reset-password?token=${resetToken}`;
+const resetLink = `${process.env.CLIENT_RESET_URL}/reset-password/${resetToken}`;
     const info = await transporter.sendMail({
       from: `"HireHaven" <${process.env.EMAIL_USER}>`,
       to,

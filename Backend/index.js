@@ -2,9 +2,15 @@ import { connectDB } from "./config/db.js";
 import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+
+// Routes
+
 import authRoutes from "./routes/auth.route.js";
 import projectRoutes from "./routes/projectAndBid.route.js";
 import messageRoutes from "./routes/message.route.js";
+
+// Dependencies
+
 import cors from "cors";
 import morgan from "morgan";
 
@@ -13,6 +19,8 @@ dotenv.config(); // Load environment variables from .env file
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+
+// Parsing
 
 app.use(express.json()); // Middleware to parse JSON requests
 app.use(cookieParser()); // Middleware to parse cookies
@@ -23,6 +31,8 @@ app.use(
   })
 );
 app.use(morgan("dev"));
+
+// Routes
 
 app.use("/api/auth", authRoutes); // Use auth routes
 app.use("/api/projects", projectRoutes); // Use project and bid routes
